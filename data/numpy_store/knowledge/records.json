@@ -1,0 +1,475 @@
+[
+ {
+  "id": "RB-101::0",
+  "text": "Symptoms: the gateway powers on, the status LED is solid amber, and no uplinks reach the platform for more than fifteen minutes. Before replacing anything, confirm the radio is genuinely dead. Run `helios-cli radio selftest` on the unit. Exit code 3 means the radio module failed its internal loopback and the board must be swapped. Exit code 0 with no uplinks points at antenna or backhaul, not the radio.",
+  "meta": {
+   "doc_id": "RB-101",
+   "title": "Replacing a failed HX-40 gateway radio",
+   "kind": "runbook",
+   "date": "2026-01-14",
+   "ordinal": 0
+  }
+ },
+ {
+  "id": "RB-101::1",
+  "text": "the board must be swapped. Exit code 0 with no uplinks points at antenna or backhaul, not the radio. To replace: power down, remove the four M3 screws on the underside, disconnect the u.FL pigtail gently \u2014 it tears if pulled sideways \u2014 and lift the radio daughterboard straight up. Fit the replacement, torque the screws to 0.4 Nm, and re-pair with `helios-cli radio pair --site <id>`. Record the old module serial in the RMA ticket. A radio swap always requires an RMA under the hardware warranty policy.",
+  "meta": {
+   "doc_id": "RB-101",
+   "title": "Replacing a failed HX-40 gateway radio",
+   "kind": "runbook",
+   "date": "2026-01-14",
+   "ordinal": 1
+  }
+ },
+ {
+  "id": "RB-102::0",
+  "text": "A node that reboots into the bootloader repeatedly shows a rapidly blinking green LED, roughly four flashes per second, and never joins the network. This almost always follows an interrupted firmware write. Connect over USB-C, run `helios-cli node console`, and look for `CRC mismatch at slot B`. That confirms a partial image.",
+  "meta": {
+   "doc_id": "RB-102",
+   "title": "Recovering a node stuck in bootloader",
+   "kind": "runbook",
+   "date": "2026-02-03",
+   "ordinal": 0
+  }
+ },
+ {
+  "id": "RB-102::1",
+  "text": "USB-C, run `helios-cli node console`, and look for `CRC mismatch at slot B`. That confirms a partial image. Recovery: hold the RESET button for ten seconds to force slot A, which holds the last known-good image. The node should rejoin within ninety seconds. Then re-flash slot B with `helios-cli node flash --slot b`. Do not raise an RMA for a bootloader loop. The hardware is fine; this is recoverable in the field in under ten minutes.",
+  "meta": {
+   "doc_id": "RB-102",
+   "title": "Recovering a node stuck in bootloader",
+   "kind": "runbook",
+   "date": "2026-02-03",
+   "ordinal": 1
+  }
+ },
+ {
+  "id": "RB-103::0",
+  "text": "The TS-9 ships factory-calibrated but drifts roughly 0.1 degrees Celsius per year of continuous operation, and faster above 60 degrees ambient. Calibrate against a reference bath at two points, 0 and 50 degrees. Let the probe settle for a full five minutes at each point; readings taken earlier are dominated by thermal mass and will bake an error into the curve.",
+  "meta": {
+   "doc_id": "RB-103",
+   "title": "Calibrating the TS-9 temperature probe",
+   "kind": "runbook",
+   "date": "2026-01-28",
+   "ordinal": 0
+  }
+ },
+ {
+  "id": "RB-103::1",
+  "text": "a full five minutes at each point; readings taken earlier are dominated by thermal mass and will bake an error into the curve. Submit the two readings with `helios-cli probe calibrate --low <v> --high <v>`. The platform computes a linear correction and pushes it to the device on the next uplink. Recalibrate annually, or immediately after any reading that disagrees with a neighbouring probe by more than 2 degrees.",
+  "meta": {
+   "doc_id": "RB-103",
+   "title": "Calibrating the TS-9 temperature probe",
+   "kind": "runbook",
+   "date": "2026-01-28",
+   "ordinal": 1
+  }
+ },
+ {
+  "id": "RB-104::0",
+  "text": "Device certificates are valid for 24 months. The platform emits a `cert.expiring` webhook at 30, 14 and 3 days before expiry. Rotation is online and needs no site visit. Run `helios-cli fleet rotate-certs --site <id>`. Devices pick up the new certificate on their next check-in and switch over at the following reconnect, so a full site completes within one reporting interval.",
+  "meta": {
+   "doc_id": "RB-104",
+   "title": "Rotating field device certificates",
+   "kind": "runbook",
+   "date": "2026-03-11",
+   "ordinal": 0
+  }
+ },
+ {
+  "id": "RB-104::1",
+  "text": "new certificate on their next check-in and switch over at the following reconnect, so a full site completes within one reporting interval. A device that has already expired cannot rotate over the air \u2014 it can no longer establish the TLS session needed to fetch the new certificate. Those units require a USB-C re-provision on site, which is why the 30-day warning exists and why ignoring it is expensive.",
+  "meta": {
+   "doc_id": "RB-104",
+   "title": "Rotating field device certificates",
+   "kind": "runbook",
+   "date": "2026-03-11",
+   "ordinal": 1
+  }
+ },
+ {
+  "id": "RB-105::0",
+  "text": "Each HX-40 buffers telemetry locally when backhaul is unavailable. The buffer holds 72 hours at the default one-minute sampling interval. When the buffer fills, firmware 4.x DISCARDS THE OLDEST records to make room for new ones. Check occupancy with `helios-cli buffer status`. To drain a full buffer once backhaul returns, run `helios-cli buffer flush --rate 200`. The rate limit matters: flushing at full speed from several gateways at once has previously saturated the ingest tier.",
+  "meta": {
+   "doc_id": "RB-105",
+   "title": "Clearing a full local buffer on HX-40",
+   "kind": "runbook",
+   "date": "2026-02-19",
+   "ordinal": 0
+  }
+ },
+ {
+  "id": "RB-105::1",
+  "text": "--rate 200`. The rate limit matters: flushing at full speed from several gateways at once has previously saturated the ingest tier. Note this behaviour changed in firmware 5.0. Confirm the firmware version before relying on the discard-oldest assumption.",
+  "meta": {
+   "doc_id": "RB-105",
+   "title": "Clearing a full local buffer on HX-40",
+   "kind": "runbook",
+   "date": "2026-02-19",
+   "ordinal": 1
+  }
+ },
+ {
+  "id": "RB-106::0",
+  "text": "Intermittent loss \u2014 uplinks arriving but with gaps \u2014 is usually RF, not software. Collect `helios-cli radio stats --window 24h` and read three numbers. RSSI below -110 dBm means the link is marginal. SNR below -7 dB means the signal is under the noise floor. A packet error rate above 5 per cent with healthy RSSI and SNR points at interference rather than distance.",
+  "meta": {
+   "doc_id": "RB-106",
+   "title": "Diagnosing intermittent LoRa packet loss",
+   "kind": "runbook",
+   "date": "2026-03-02",
+   "ordinal": 0
+  }
+ },
+ {
+  "id": "RB-106::1",
+  "text": "floor. A packet error rate above 5 per cent with healthy RSSI and SNR points at interference rather than distance. Check antenna placement first: an antenna mounted flat against metal loses roughly 12 dB, which is more than most site surveys account for. Raising it 30 centimetres off the surface usually recovers the link. Only escalate to hardware once placement and interference are excluded.",
+  "meta": {
+   "doc_id": "RB-106",
+   "title": "Diagnosing intermittent LoRa packet loss",
+   "kind": "runbook",
+   "date": "2026-03-02",
+   "ordinal": 1
+  }
+ },
+ {
+  "id": "RB-107::0",
+  "text": "Rollback is supported from 5.x to 4.3 only. Earlier targets are blocked because the on-device schema changed and 4.2 cannot read a 5.x buffer. Run `helios-cli fleet rollback --to 4.3 --site <id>`. The fleet rolls in batches of ten with a five-minute soak between batches, so a hundred-device site takes about an hour.",
+  "meta": {
+   "doc_id": "RB-107",
+   "title": "Rolling back HX-40 firmware",
+   "kind": "runbook",
+   "date": "2026-04-08",
+   "ordinal": 0
+  }
+ },
+ {
+  "id": "RB-107::1",
+  "text": "The fleet rolls in batches of ten with a five-minute soak between batches, so a hundred-device site takes about an hour. Buffered telemetry written under 5.x is NOT readable after rolling back to 4.3. Flush the buffer first with `helios-cli buffer flush` or accept the loss. This is the single most common mistake during a rollback and it is not recoverable afterwards.",
+  "meta": {
+   "doc_id": "RB-107",
+   "title": "Rolling back HX-40 firmware",
+   "kind": "runbook",
+   "date": "2026-04-08",
+   "ordinal": 1
+  }
+ },
+ {
+  "id": "REL-4.2::0",
+  "text": "Adds support for the TS-9 Rev C probe. Reduces idle current draw by 18 per cent, extending battery life on solar-assisted sites. Fixes a bug where `helios-cli buffer status` reported occupancy as a percentage of 64 hours rather than the actual 72-hour capacity. Known issue: certificate rotation can fail silently on devices with clock drift above five minutes. Sync time before rotating.",
+  "meta": {
+   "doc_id": "REL-4.2",
+   "title": "Helios firmware 4.2 release notes",
+   "kind": "release",
+   "date": "2025-09-30",
+   "ordinal": 0
+  }
+ },
+ {
+  "id": "REL-4.3::0",
+  "text": "Fixes the silent certificate-rotation failure from 4.2 by forcing an NTP sync before the rotation handshake. Adds `helios-cli radio selftest`, which exercises the radio's internal loopback and returns exit code 3 on a hardware fault. This replaces the older visual LED diagnosis, which produced a lot of unnecessary RMAs. 4.3 is the oldest release supported as a rollback target from 5.x.",
+  "meta": {
+   "doc_id": "REL-4.3",
+   "title": "Helios firmware 4.3 release notes",
+   "kind": "release",
+   "date": "2025-12-12",
+   "ordinal": 0
+  }
+ },
+ {
+  "id": "REL-5.0::0",
+  "text": "BREAKING: the local buffer now applies BACKPRESSURE instead of discarding the oldest records. When the buffer fills, the device reduces its sampling rate rather than losing history. Dashboards that assumed a continuous one-minute series must handle variable intervals. BREAKING: `/v1/telemetry` responses are cursor-paginated. Offset pagination is removed, not deprecated. The on-device buffer schema changed. Telemetry written under 5.0 cannot be read by 4.x firmware, so a rollback loses any unflushed buffer.",
+  "meta": {
+   "doc_id": "REL-5.0",
+   "title": "Helios firmware 5.0 release notes",
+   "kind": "release",
+   "date": "2026-02-26",
+   "ordinal": 0
+  }
+ },
+ {
+  "id": "REL-5.0::1",
+  "text": "written under 5.0 cannot be read by 4.x firmware, so a rollback loses any unflushed buffer. Rollback to 4.3 is supported. Rollback to 4.2 or earlier is blocked.",
+  "meta": {
+   "doc_id": "REL-5.0",
+   "title": "Helios firmware 5.0 release notes",
+   "kind": "release",
+   "date": "2026-02-26",
+   "ordinal": 1
+  }
+ },
+ {
+  "id": "REL-5.1::0",
+  "text": "Adds a `buffer.backpressure` webhook so backpressure events are visible without polling. Reduces rollback batch soak time from ten minutes to five, roughly halving the time to roll a large site. Fixes a regression in 5.0 where `helios-cli buffer flush --rate` ignored the rate argument and always flushed at full speed.",
+  "meta": {
+   "doc_id": "REL-5.1",
+   "title": "Helios firmware 5.1 release notes",
+   "kind": "release",
+   "date": "2026-04-30",
+   "ordinal": 0
+  }
+ },
+ {
+  "id": "INC-2291::0",
+  "text": "Impact: 4,100 devices stopped reporting for 6 hours 40 minutes. Cause: an ingest deploy tightened payload validation to reject unknown fields. Devices on 4.2 send a `debug_flags` field that 4.3 removed. The stricter validator rejected every 4.2 uplink. Detection took 51 minutes because the ingest dashboard tracks accepted requests per second and the rejections were counted as handled. Volume looked normal. The gap was visible only in per-device last-seen.",
+  "meta": {
+   "doc_id": "INC-2291",
+   "title": "Postmortem: fleet-wide telemetry gap",
+   "kind": "incident",
+   "date": "2026-01-09",
+   "ordinal": 0
+  }
+ },
+ {
+  "id": "INC-2291::1",
+  "text": "and the rejections were counted as handled. Volume looked normal. The gap was visible only in per-device last-seen. Actions: validators now warn on unknown fields for one release before rejecting, and the ingest dashboard alerts on last-seen distribution rather than request volume.",
+  "meta": {
+   "doc_id": "INC-2291",
+   "title": "Postmortem: fleet-wide telemetry gap",
+   "kind": "incident",
+   "date": "2026-01-09",
+   "ordinal": 1
+  }
+ },
+ {
+  "id": "INC-2314::0",
+  "text": "Impact: 312 devices at two sites went offline and required on-site re-provisioning. Recovery took nine days of field visits. Cause: the `cert.expiring` webhook was configured against a decommissioned endpoint. All 30, 14 and 3-day warnings were delivered successfully to a URL nobody read. Certificates expired, and expired devices cannot rotate over the air because they can no longer complete the TLS handshake.",
+  "meta": {
+   "doc_id": "INC-2314",
+   "title": "Postmortem: certificate expiry outage",
+   "kind": "incident",
+   "date": "2026-02-14",
+   "ordinal": 0
+  }
+ },
+ {
+  "id": "INC-2314::1",
+  "text": "nobody read. Certificates expired, and expired devices cannot rotate over the air because they can no longer complete the TLS handshake. The webhook was returning HTTP 200 from a default handler, so delivery monitoring showed healthy. A successful delivery is not a received warning. Actions: quarterly webhook endpoint verification, and expiry warnings now also raise a ticket rather than relying on a webhook alone.",
+  "meta": {
+   "doc_id": "INC-2314",
+   "title": "Postmortem: certificate expiry outage",
+   "kind": "incident",
+   "date": "2026-02-14",
+   "ordinal": 1
+  }
+ },
+ {
+  "id": "INC-2350::0",
+  "text": "Impact: CSV exports failed for any dataset above roughly 500,000 rows. Around 40 customers affected over eleven days. Cause: the export path materialised the full result set in memory before writing. Above 500k rows the worker exceeded its memory limit and was killed, surfacing to the customer as a gateway timeout with no explanation. Workaround issued at the time: filter by date range to keep exports under the threshold. Fixed by streaming the result set to object storage and emailing a signed link.",
+  "meta": {
+   "doc_id": "INC-2350",
+   "title": "Postmortem: export timeouts above 500k rows",
+   "kind": "incident",
+   "date": "2026-03-21",
+   "ordinal": 0
+  }
+ },
+ {
+  "id": "INC-2350::1",
+  "text": "by date range to keep exports under the threshold. Fixed by streaming the result set to object storage and emailing a signed link. This is known issue KI-118 in customer-facing documentation.",
+  "meta": {
+   "doc_id": "INC-2350",
+   "title": "Postmortem: export timeouts above 500k rows",
+   "kind": "incident",
+   "date": "2026-03-21",
+   "ordinal": 1
+  }
+ },
+ {
+  "id": "INC-2377::0",
+  "text": "Impact: roughly 2.1 million duplicate telemetry rows across 180 devices over three days. Cause: `helios-cli buffer flush` did not mark records as acknowledged until the entire batch completed. A backhaul drop mid-batch caused the device to retry from the start of the batch, resending records the platform had already accepted.",
+  "meta": {
+   "doc_id": "INC-2377",
+   "title": "Postmortem: duplicate telemetry rows after flush",
+   "kind": "incident",
+   "date": "2026-04-17",
+   "ordinal": 0
+  }
+ },
+ {
+  "id": "INC-2377::1",
+  "text": "drop mid-batch caused the device to retry from the start of the batch, resending records the platform had already accepted. Ingest deduplicates on (device_id, timestamp), but the 5.0 backpressure change means timestamps are no longer evenly spaced, and the dedup window assumed a fixed one-minute grid. Records that fell outside the window were stored twice. Actions: per-record acknowledgement during flush, and the dedup window is now derived from the device's reported interval.",
+  "meta": {
+   "doc_id": "INC-2377",
+   "title": "Postmortem: duplicate telemetry rows after flush",
+   "kind": "incident",
+   "date": "2026-04-17",
+   "ordinal": 1
+  }
+ },
+ {
+  "id": "API-001::0",
+  "text": "All requests authenticate with a bearer token in the `Authorization` header. Tokens are scoped per site and per role. Tokens do not expire but can be revoked. Revocation propagates within 60 seconds. There is no refresh flow; mint a new token and swap it in. Never send a token as a query parameter. The gateway logs full request URLs, so a token in a query string ends up in log storage and in any downstream log aggregation.",
+  "meta": {
+   "doc_id": "API-001",
+   "title": "API authentication",
+   "kind": "api",
+   "date": "2026-03-01",
+   "ordinal": 0
+  }
+ },
+ {
+  "id": "API-002::0",
+  "text": "Lists devices for a site. Query parameters: `site_id` (required), `status` (one of online, offline, degraded), `firmware`, `cursor`, `limit` (default 50, maximum 200). Returns `device_id`, `serial`, `firmware`, `last_seen`, `status`, `cert_expires_at`.",
+  "meta": {
+   "doc_id": "API-002",
+   "title": "GET /v1/devices",
+   "kind": "api",
+   "date": "2026-03-01",
+   "ordinal": 0
+  }
+ },
+ {
+  "id": "API-002::1",
+  "text": "Returns `device_id`, `serial`, `firmware`, `last_seen`, `status`, `cert_expires_at`. `last_seen` is the last accepted uplink, not the last attempted one. A device whose uplinks are being rejected by validation will show a stale `last_seen` while appearing healthy in request-volume metrics.",
+  "meta": {
+   "doc_id": "API-002",
+   "title": "GET /v1/devices",
+   "kind": "api",
+   "date": "2026-03-01",
+   "ordinal": 1
+  }
+ },
+ {
+  "id": "API-003::0",
+  "text": "Returns time-series readings. Parameters: `device_id` or `site_id`, `from`, `to` (ISO 8601), `interval`, `cursor`, `limit` (maximum 1000). As of firmware 5.0 and the matching platform release, this endpoint is cursor-paginated only. Offset pagination has been removed. Pass the `next_cursor` from the previous response.",
+  "meta": {
+   "doc_id": "API-003",
+   "title": "GET /v1/telemetry",
+   "kind": "api",
+   "date": "2026-03-01",
+   "ordinal": 0
+  }
+ },
+ {
+  "id": "API-003::1",
+  "text": "endpoint is cursor-paginated only. Offset pagination has been removed. Pass the `next_cursor` from the previous response. Readings are returned in ascending timestamp order. Intervals are not guaranteed uniform: a device under backpressure reduces its sampling rate, so consumers must not assume a fixed grid.",
+  "meta": {
+   "doc_id": "API-003",
+   "title": "GET /v1/telemetry",
+   "kind": "api",
+   "date": "2026-03-01",
+   "ordinal": 1
+  }
+ },
+ {
+  "id": "API-004::0",
+  "text": "Default limits are 60 requests per minute per token for read endpoints and 10 per minute for write endpoints. Exports count as writes. Exceeding a limit returns HTTP 429 with a `Retry-After` header in seconds. Clients should honour it; retrying immediately extends the penalty window. Bulk reads should use a larger `limit` rather than more requests. One request at limit 1000 costs the same against the quota as one request at limit 50.",
+  "meta": {
+   "doc_id": "API-004",
+   "title": "Rate limits",
+   "kind": "api",
+   "date": "2026-03-01",
+   "ordinal": 0
+  }
+ },
+ {
+  "id": "API-005::0",
+  "text": "Subscribe to `device.offline`, `cert.expiring`, `buffer.full`, `buffer.backpressure` and `export.ready`. Deliveries retry with exponential backoff for 24 hours. Any 2xx response counts as delivered \u2014 the platform cannot distinguish a handler that processed the event from a default route that returned 200 and discarded it. Verify the `X-Helios-Signature` HMAC on every delivery. Verify your endpoint quarterly; a silently-discarding endpoint is indistinguishable from a working one in delivery metrics.",
+  "meta": {
+   "doc_id": "API-005",
+   "title": "Webhooks",
+   "kind": "api",
+   "date": "2026-03-01",
+   "ordinal": 0
+  }
+ },
+ {
+  "id": "API-006::0",
+  "text": "Cursor pagination throughout. Responses include `next_cursor` when more data exists and omit it on the final page. Cursors are opaque and expire after one hour. Do not construct, parse or store them. Offset pagination was removed alongside firmware 5.0. Code that passes `offset` receives HTTP 400.",
+  "meta": {
+   "doc_id": "API-006",
+   "title": "Pagination",
+   "kind": "api",
+   "date": "2026-03-01",
+   "ordinal": 0
+  }
+ },
+ {
+  "id": "HW-01::0",
+  "text": "LoRa gateway. Operating range -30 to +65 degrees Celsius. IP66. Powered by 12V DC or PoE. Idle draw 2.1W, peak 6.4W during flush. Local storage 8 GB, which is 72 hours of telemetry at the default one-minute interval across 200 attached nodes.",
+  "meta": {
+   "doc_id": "HW-01",
+   "title": "HX-40 gateway specification",
+   "kind": "hardware",
+   "date": "2025-11-05",
+   "ordinal": 0
+  }
+ },
+ {
+  "id": "HW-01::1",
+  "text": "Local storage 8 GB, which is 72 hours of telemetry at the default one-minute interval across 200 attached nodes. Radio module is a field-replaceable daughterboard. The u.FL pigtail is the most commonly damaged part during service and is not sold separately \u2014 a damaged pigtail means replacing the whole daughterboard.",
+  "meta": {
+   "doc_id": "HW-01",
+   "title": "HX-40 gateway specification",
+   "kind": "hardware",
+   "date": "2025-11-05",
+   "ordinal": 1
+  }
+ },
+ {
+  "id": "HW-02::0",
+  "text": "Temperature probe. Range -40 to +125 degrees Celsius, accuracy plus or minus 0.3 degrees after calibration. Drift approximately 0.1 degrees per year. Battery: 3.6V lithium thionyl chloride, typical life five years at a one-minute sampling interval, dropping to under two years at ten-second sampling. Rev C adds a shielded cable and requires firmware 4.2 or later. Rev B probes on 5.x firmware report correctly but cannot use the faster sampling modes.",
+  "meta": {
+   "doc_id": "HW-02",
+   "title": "TS-9 probe specification",
+   "kind": "hardware",
+   "date": "2025-11-05",
+   "ordinal": 0
+  }
+ },
+ {
+  "id": "HW-03::0",
+  "text": "Battery life scales roughly with the square root of the sampling interval, not linearly \u2014 halving the interval costs far more than half the life because the radio wake cycle dominates. Solar-assisted sites should size panels for the worst month, not the annual average. A panel sized to the mean fails every winter and the failure looks like intermittent connectivity rather than a power problem, which sends engineers down the RF diagnostic path for nothing.",
+  "meta": {
+   "doc_id": "HW-03",
+   "title": "Power and battery guidance",
+   "kind": "hardware",
+   "date": "2026-01-20",
+   "ordinal": 0
+  }
+ },
+ {
+  "id": "HW-03::1",
+  "text": "winter and the failure looks like intermittent connectivity rather than a power problem, which sends engineers down the RF diagnostic path for nothing. Below -20 degrees, lithium thionyl chloride capacity drops sharply. Budget 40 per cent less usable capacity at Arctic sites.",
+  "meta": {
+   "doc_id": "HW-03",
+   "title": "Power and battery guidance",
+   "kind": "hardware",
+   "date": "2026-01-20",
+   "ordinal": 1
+  }
+ },
+ {
+  "id": "HW-04::0",
+  "text": "Mount antennas vertically, with at least 30 centimetres of clearance from metal surfaces. An antenna flat against a metal panel loses approximately 12 dB, which typically halves usable range. Avoid mounting inside enclosures. An IP66 plastic enclosure costs 2 to 3 dB; a metal one effectively blocks the link. Line of sight matters more than height beyond about six metres. Raising an antenna above the local obstruction is worth more than raising it further.",
+  "meta": {
+   "doc_id": "HW-04",
+   "title": "Antenna placement",
+   "kind": "hardware",
+   "date": "2026-01-20",
+   "ordinal": 0
+  }
+ },
+ {
+  "id": "POL-01::0",
+  "text": "Hardware is warranted for 36 months from shipment. An RMA requires a diagnostic code proving a hardware fault \u2014 for radios that is `helios-cli radio selftest` exit code 3. Field-recoverable conditions are not RMA-eligible. A bootloader loop, a full buffer, a drifted calibration and a misplaced antenna are all resolvable on site and will be rejected. Replacement units ship within two business days. The faulty unit must be returned within 30 days or the replacement is invoiced at list price.",
+  "meta": {
+   "doc_id": "POL-01",
+   "title": "Hardware RMA policy",
+   "kind": "policy",
+   "date": "2026-02-01",
+   "ordinal": 0
+  }
+ },
+ {
+  "id": "POL-02::0",
+  "text": "Raw telemetry is retained for 13 months, then downsampled to hourly averages and retained for a further five years. Exports are available over the full retention window, but exports spanning the downsampled period return hourly averages and are labelled as such in the response metadata. Deletion requests are honoured within 30 days and cascade to backups on the next backup rotation, which can take an additional 14 days.",
+  "meta": {
+   "doc_id": "POL-02",
+   "title": "Data retention",
+   "kind": "policy",
+   "date": "2026-02-01",
+   "ordinal": 0
+  }
+ }
+]

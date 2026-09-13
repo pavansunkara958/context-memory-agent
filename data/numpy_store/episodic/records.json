@@ -1,0 +1,54 @@
+[
+ {
+  "id": "e75cddfa8e49e3c5",
+  "text": "always work in celsius",
+  "meta": {
+   "user_id": "eval-user",
+   "kind": "preference",
+   "confidence": 0.85,
+   "times_seen": 1,
+   "sessions": "[\"eval-s1\"]",
+   "created_at": 1789329620.80044,
+   "updated_at": 1789329620.800441
+  }
+ },
+ {
+  "id": "ad636c219c34d5a9",
+  "text": "our site is NW-41",
+  "meta": {
+   "user_id": "eval-user",
+   "kind": "entity",
+   "confidence": 0.9,
+   "times_seen": 1,
+   "sessions": "[\"eval-s1\"]",
+   "created_at": 1789329620.802488,
+   "updated_at": 1789329620.802508
+  }
+ },
+ {
+  "id": "3faa368be71644ae",
+  "text": "we run firmware 4.3",
+  "meta": {
+   "user_id": "eval-user",
+   "kind": "entity",
+   "confidence": 0.9,
+   "times_seen": 1,
+   "sessions": "[\"eval-s1\"]",
+   "created_at": 1789329620.804689,
+   "updated_at": 1789329620.804689
+  }
+ },
+ {
+  "id": "94d141a9e8b06581",
+  "text": "i prefer short answers",
+  "meta": {
+   "user_id": "eval-user",
+   "kind": "preference",
+   "confidence": 0.85,
+   "times_seen": 1,
+   "sessions": "[\"eval-s1\"]",
+   "created_at": 1789329620.806701,
+   "updated_at": 1789329620.806701
+  }
+ }
+]

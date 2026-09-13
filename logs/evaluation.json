@@ -1,0 +1,205 @@
+{
+  "environment": {
+    "embedder": "hash",
+    "reranker": "lexical-overlap",
+    "chunks": 43,
+    "store": "numpy"
+  },
+  "retrieval": [
+    {
+      "config": "dense only",
+      "recall_at_3": 0.4667,
+      "recall_at_6": 0.4667,
+      "precision_at_3": 0.2667,
+      "mrr": 0.575,
+      "ndcg_at_6": 0.4848,
+      "by_type": {
+        "exact": 0.833,
+        "mixed": 0.167,
+        "paraphrase": 0.5
+      },
+      "mean_context_relevance": 0.3073,
+      "mean_chunks_packed": 1.65,
+      "mean_token_reduction": 0.0
+    },
+    {
+      "config": "sparse (BM25) only",
+      "recall_at_3": 0.9333,
+      "recall_at_6": 0.9833,
+      "precision_at_3": 0.5167,
+      "mrr": 0.9625,
+      "ndcg_at_6": 0.9478,
+      "by_type": {
+        "exact": 0.917,
+        "mixed": 1.0,
+        "paraphrase": 0.9
+      },
+      "mean_context_relevance": 0.0,
+      "mean_chunks_packed": 6.55,
+      "mean_token_reduction": 0.449
+    },
+    {
+      "config": "hybrid, no rerank",
+      "recall_at_3": 0.8583,
+      "recall_at_6": 0.9833,
+      "precision_at_3": 0.4833,
+      "mrr": 0.8933,
+      "ndcg_at_6": 0.8888,
+      "by_type": {
+        "exact": 0.917,
+        "mixed": 0.833,
+        "paraphrase": 0.85
+      },
+      "mean_context_relevance": 0.2017,
+      "mean_chunks_packed": 6.2,
+      "mean_token_reduction": 0.483
+    },
+    {
+      "config": "hybrid + rerank",
+      "recall_at_3": 0.8583,
+      "recall_at_6": 0.9833,
+      "precision_at_3": 0.4667,
+      "mrr": 0.9625,
+      "ndcg_at_6": 0.9297,
+      "by_type": {
+        "exact": 0.917,
+        "mixed": 0.833,
+        "paraphrase": 0.85
+      },
+      "mean_context_relevance": 0.2032,
+      "mean_chunks_packed": 6.1,
+      "mean_token_reduction": 0.496
+    },
+    {
+      "config": "full (+dedup+filter)",
+      "recall_at_3": 0.8583,
+      "recall_at_6": 0.9833,
+      "precision_at_3": 0.4667,
+      "mrr": 0.9625,
+      "ndcg_at_6": 0.9297,
+      "by_type": {
+        "exact": 0.917,
+        "mixed": 0.833,
+        "paraphrase": 0.85
+      },
+      "mean_context_relevance": 0.2032,
+      "mean_chunks_packed": 6.1,
+      "mean_token_reduction": 0.496
+    },
+    {
+      "config": "full, dedup off",
+      "recall_at_3": 0.8583,
+      "recall_at_6": 0.9833,
+      "precision_at_3": 0.4667,
+      "mrr": 0.9625,
+      "ndcg_at_6": 0.9297,
+      "by_type": {
+        "exact": 0.917,
+        "mixed": 0.833,
+        "paraphrase": 0.85
+      },
+      "mean_context_relevance": 0.2032,
+      "mean_chunks_packed": 6.1,
+      "mean_token_reduction": 0.496
+    }
+  ],
+  "memory": {
+    "facts_stored": 4,
+    "probes": 4,
+    "recalled": 4,
+    "cross_session_recall": 1.0,
+    "details": [
+      {
+        "probe": "what temperature units do we use",
+        "expected": "celsius",
+        "recalled": true,
+        "top": "we run firmware 4.3"
+      },
+      {
+        "probe": "which site do we work on",
+        "expected": "NW-41",
+        "recalled": true,
+        "top": "always work in celsius"
+      },
+      {
+        "probe": "what firmware are we on",
+        "expected": "4.3",
+        "recalled": true,
+        "top": "we run firmware 4.3"
+      },
+      {
+        "probe": "how long should answers be",
+        "expected": "short",
+        "recalled": true,
+        "top": "i prefer short answers"
+      }
+    ]
+  },
+  "consistency": {
+    "pairs": 4,
+    "mean_evidence_overlap": 0.5,
+    "mean_answer_similarity": 0.488,
+    "rows": [
+      {
+        "id": "C1",
+        "evidence_overlap": 0.0,
+        "answer_similarity": 0.239,
+        "docs_a": [
+          "INC-2291",
+          "INC-2350",
+          "RB-105"
+        ],
+        "docs_b": [
+          "HW-01",
+          "INC-2377",
+          "REL-5.0"
+        ]
+      },
+      {
+        "id": "C2",
+        "evidence_overlap": 0.5,
+        "answer_similarity": 0.705,
+        "docs_a": [
+          "HW-02",
+          "RB-107",
+          "REL-5.0"
+        ],
+        "docs_b": [
+          "RB-107",
+          "REL-4.3",
+          "REL-5.0"
+        ]
+      },
+      {
+        "id": "C3",
+        "evidence_overlap": 1.0,
+        "answer_similarity": 0.738,
+        "docs_a": [
+          "POL-01",
+          "RB-101",
+          "RB-102"
+        ],
+        "docs_b": [
+          "POL-01",
+          "RB-101",
+          "RB-102"
+        ]
+      },
+      {
+        "id": "C4",
+        "evidence_overlap": 0.5,
+        "answer_similarity": 0.27,
+        "docs_a": [
+          "HW-04",
+          "RB-104",
+          "RB-106"
+        ],
+        "docs_b": [
+          "HW-04",
+          "POL-01",
+          "RB-106"
+        ]
+      }
+    ]
+  }
+}

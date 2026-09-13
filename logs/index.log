@@ -1,0 +1,13 @@
+
+==============================================================================
+BUILDING KNOWLEDGE INDEX
+==============================================================================
+  provider=offline  embed=auto  rerank=on
+  corpus     : {'documents': 27, 'by_kind': {'runbook': 7, 'release': 4, 'incident': 4, 'api': 6, 'hardware': 4, 'policy': 2}}
+  chunks     : 43
+  store      : numpy
+  embedder   : hash
+  reranker   : lexical-overlap
+
+  NOTE: running on the hash embedder — lexical, not semantic.
+  `pip install sentence-transformers` for real semantic retrieval.

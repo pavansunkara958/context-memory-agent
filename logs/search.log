@@ -1,0 +1,30 @@
+
+==============================================================================
+SEARCH — 'can we roll back to 4.2'
+==============================================================================
+  6 retrieved → 6 relevant → 6 unique → 6 packed  (482→482 tokens, 0% reduction)
+
+  1. [RB-107#1] Rolling back HX-40 firmware (runbook, 2026-04-08)
+     dense=0.154  bm25=6.02  rerank=1.759  via=dense+sparse
+     The fleet rolls in batches of ten with a five-minute soak between batches, so a hundred-device site takes about an hour. Buffered telemetry written under 5.x is NOT reada...
+
+  2. [REL-5.1#0] Helios firmware 5.1 release notes (release, 2026-04-30)
+     dense=0.077  bm25=4.47  rerank=1.267  via=dense+sparse
+     Adds a `buffer.backpressure` webhook so backpressure events are visible without polling. Reduces rollback batch soak time from ten minutes to five, roughly halving the ti...
+
+  3. [RB-107#0] Rolling back HX-40 firmware (runbook, 2026-04-08)
+     dense=0.246  bm25=7.60  rerank=1.252  via=dense+sparse
+     Rollback is supported from 5.x to 4.3 only. Earlier targets are blocked because the on-device schema changed and 4.2 cannot read a 5.x buffer. Run `helios-cli fleet rollb...
+
+  4. [REL-5.0#1] Helios firmware 5.0 release notes (release, 2026-02-26)
+     dense=0.246  bm25=5.40  rerank=1.252  via=dense+sparse
+     written under 5.0 cannot be read by 4.x firmware, so a rollback loses any unflushed buffer. Rollback to 4.3 is supported. Rollback to 4.2 or earlier is blocked....
+
+  5. [INC-2291#0] Postmortem: fleet-wide telemetry gap (incident, 2026-01-09)
+     dense=0.196  bm25=5.02  rerank=1.252  via=dense+sparse
+     Impact: 4,100 devices stopped reporting for 6 hours 40 minutes. Cause: an ingest deploy tightened payload validation to reject unknown fields. Devices on 4.2 send a `debu...
+
+  6. [HW-02#0] TS-9 probe specification (hardware, 2025-11-05)
+     dense=0.000  bm25=3.47  rerank=1.252  via=sparse
+     Temperature probe. Range -40 to +125 degrees Celsius, accuracy plus or minus 0.3 degrees after calibration. Drift approximately 0.1 degrees per year. Battery: 3.6V lithiu...
+

@@ -1,0 +1,49 @@
+====================================================================================
+EVALUATION
+====================================================================================
+  embedder=hash  reranker=lexical-overlap  store=numpy  chunks=43
+
+RETRIEVAL — ablation
+  configuration                  R@3     R@6     P@3     MRR    nDCG
+  ------------------------------------------------------------------------
+  dense only                   0.467   0.467   0.267   0.575   0.485
+  sparse (BM25) only           0.933   0.983   0.517   0.963   0.948
+  hybrid, no rerank            0.858   0.983   0.483   0.893   0.889
+  hybrid + rerank              0.858   0.983   0.467   0.963   0.930
+  full (+dedup+filter)         0.858   0.983   0.467   0.963   0.930
+  full, dedup off              0.858   0.983   0.467   0.963   0.930
+
+  recall@3 by query type
+    dense only                 exact=0.833, mixed=0.167, paraphrase=0.5
+    sparse (BM25) only         exact=0.917, mixed=1.0, paraphrase=0.9
+    hybrid, no rerank          exact=0.917, mixed=0.833, paraphrase=0.85
+    hybrid + rerank            exact=0.917, mixed=0.833, paraphrase=0.85
+    full (+dedup+filter)       exact=0.917, mixed=0.833, paraphrase=0.85
+    full, dedup off            exact=0.917, mixed=0.833, paraphrase=0.85
+
+  context economy
+    dense only                 chunks=1.65   relevance=0.3073   token_reduction=0.0
+    sparse (BM25) only         chunks=6.55   relevance=0.0      token_reduction=0.449
+    hybrid, no rerank          chunks=6.2    relevance=0.2017   token_reduction=0.483
+    hybrid + rerank            chunks=6.1    relevance=0.2032   token_reduction=0.496
+    full (+dedup+filter)       chunks=6.1    relevance=0.2032   token_reduction=0.496
+    full, dedup off            chunks=6.1    relevance=0.2032   token_reduction=0.496
+
+MEMORY QUALITY
+  facts promoted to long-term : 4
+  cross-session recall        : 4/4 (1.0)
+    [OK ] what temperature units do we use       -> we run firmware 4.3
+    [OK ] which site do we work on               -> always work in celsius
+    [OK ] what firmware are we on                -> we run firmware 4.3
+    [OK ] how long should answers be             -> i prefer short answers
+
+RESPONSE CONSISTENCY  (4 paraphrase pairs)
+  mean evidence overlap  : 0.5
+  mean answer similarity : 0.488
+    C1  overlap=0.0    sim=0.239  ['INC-2291', 'INC-2350', 'RB-105'] vs ['HW-01', 'INC-2377', 'REL-5.0']
+    C2  overlap=0.5    sim=0.705  ['HW-02', 'RB-107', 'REL-5.0'] vs ['RB-107', 'REL-4.3', 'REL-5.0']
+    C3  overlap=1.0    sim=0.738  ['POL-01', 'RB-101', 'RB-102'] vs ['POL-01', 'RB-101', 'RB-102']
+    C4  overlap=0.5    sim=0.27   ['HW-04', 'RB-104', 'RB-106'] vs ['HW-04', 'POL-01', 'RB-106']
+====================================================================================
+
+  saved → logs/evaluation.json

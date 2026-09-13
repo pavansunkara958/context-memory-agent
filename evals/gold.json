@@ -1,0 +1,147 @@
+{
+  "_comment": "Labelled retrieval set. 'type' marks what each query stresses: paraphrase queries carry no shared vocabulary with the source and should favour dense retrieval; exact queries hinge on a literal token (an error code, a version string) and should favour BM25. A gold set made only of one type measures half a pipeline and makes hybrid retrieval look pointless.",
+  "queries": [
+    {
+      "id": "Q01",
+      "query": "the gateway powers on but the status light is solid amber and nothing is arriving",
+      "relevant": ["RB-101"],
+      "type": "paraphrase"
+    },
+    {
+      "id": "Q02",
+      "query": "helios-cli radio selftest exit code 3",
+      "relevant": ["RB-101", "REL-4.3", "POL-01"],
+      "type": "exact"
+    },
+    {
+      "id": "Q03",
+      "query": "node keeps restarting into the bootloader with a fast blinking green light",
+      "relevant": ["RB-102"],
+      "type": "paraphrase"
+    },
+    {
+      "id": "Q04",
+      "query": "can I claim warranty for a device stuck in a boot loop",
+      "relevant": ["POL-01", "RB-102"],
+      "type": "paraphrase"
+    },
+    {
+      "id": "Q05",
+      "query": "how often should the TS-9 probe be recalibrated",
+      "relevant": ["RB-103", "HW-02"],
+      "type": "mixed"
+    },
+    {
+      "id": "Q06",
+      "query": "what happens if a device certificate expires before we rotate it",
+      "relevant": ["RB-104", "INC-2314"],
+      "type": "mixed"
+    },
+    {
+      "id": "Q07",
+      "query": "what does the buffer do when it fills up on firmware 5.0",
+      "relevant": ["REL-5.0", "RB-105"],
+      "type": "exact"
+    },
+    {
+      "id": "Q08",
+      "query": "how many hours of telemetry can a gateway hold without backhaul",
+      "relevant": ["RB-105", "HW-01"],
+      "type": "paraphrase"
+    },
+    {
+      "id": "Q09",
+      "query": "packets are dropping intermittently even though signal strength looks fine",
+      "relevant": ["RB-106"],
+      "type": "paraphrase"
+    },
+    {
+      "id": "Q10",
+      "query": "antenna bolted flat to a metal panel",
+      "relevant": ["HW-04", "RB-106"],
+      "type": "mixed"
+    },
+    {
+      "id": "Q11",
+      "query": "can we roll back from 5.x to 4.2",
+      "relevant": ["RB-107", "REL-5.0"],
+      "type": "exact"
+    },
+    {
+      "id": "Q12",
+      "query": "why did four thousand devices stop reporting for most of a day",
+      "relevant": ["INC-2291"],
+      "type": "paraphrase"
+    },
+    {
+      "id": "Q13",
+      "query": "our alert endpoint returned success but nobody ever saw the warnings",
+      "relevant": ["INC-2314", "API-005"],
+      "type": "paraphrase"
+    },
+    {
+      "id": "Q14",
+      "query": "CSV export times out on large datasets",
+      "relevant": ["INC-2350"],
+      "type": "mixed"
+    },
+    {
+      "id": "Q15",
+      "query": "we are seeing the same telemetry rows stored twice after a flush",
+      "relevant": ["INC-2377"],
+      "type": "paraphrase"
+    },
+    {
+      "id": "Q16",
+      "query": "offset pagination returns HTTP 400",
+      "relevant": ["API-006", "REL-5.0", "API-003"],
+      "type": "exact"
+    },
+    {
+      "id": "Q17",
+      "query": "getting 429 responses, how long should I wait before retrying",
+      "relevant": ["API-004"],
+      "type": "mixed"
+    },
+    {
+      "id": "Q18",
+      "query": "how much battery life do we lose sampling every ten seconds",
+      "relevant": ["HW-02", "HW-03"],
+      "type": "paraphrase"
+    },
+    {
+      "id": "Q19",
+      "query": "how long is raw telemetry kept before downsampling",
+      "relevant": ["POL-02"],
+      "type": "mixed"
+    },
+    {
+      "id": "Q20",
+      "query": "is it safe to put the API token in the URL",
+      "relevant": ["API-001"],
+      "type": "paraphrase"
+    }
+  ],
+  "consistency_pairs": [
+    {
+      "id": "C1",
+      "a": "how long does the HX-40 buffer telemetry for",
+      "b": "what is the local buffering window on a gateway"
+    },
+    {
+      "id": "C2",
+      "a": "can I roll back firmware to 4.2",
+      "b": "is downgrading to 4.2 supported"
+    },
+    {
+      "id": "C3",
+      "a": "does a bootloader loop need an RMA",
+      "b": "is a boot loop covered by the hardware warranty"
+    },
+    {
+      "id": "C4",
+      "a": "why do antennas near metal perform badly",
+      "b": "what does mounting an antenna against a metal surface cost"
+    }
+  ]
+}
