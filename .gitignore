@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+*.pyc
+
+# Secrets. Never commit.
+.env
+
+# Generated state: indexes, session databases, run artefacts.
+data/
+*.sqlite
+*.sqlite3
+
+.DS_Store
+.idea/
+.vscode/
